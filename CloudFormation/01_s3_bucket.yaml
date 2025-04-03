@@ -7,6 +7,7 @@ Parameters:
     Default: mysamplebucket-12345
     Type: String
 
+# Just for demo purposes, this bucket will be public
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
