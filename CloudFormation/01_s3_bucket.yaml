@@ -11,5 +11,5 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      AccessControl: Private
+      AccessControl: PublicRead
       BucketName: !Ref BucketName
