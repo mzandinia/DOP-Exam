@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Using GitHub Actions to deploy CloudFormation stacks Demo
+
+Parameters:
+  BucketName:
+    Description: Name your Bucket
+    Default: mysamplebucket-12345
+    Type: String
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: !Ref BucketName

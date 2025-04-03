@@ -1,0 +1,38 @@
+name: Deploy CloudFormation Stacks
+on:
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+    inputs:
+      aws-region:
+        description: "AWS region to deploy the stack"
+        required: true
+        default: "us-east-1"
+
+jobs:
+  cfn-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials & region
+        id: configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ github.event.inputs.aws-region }}
+
+      - name: Deploy S3 Buckets CloudFormation Stacks
+        id: S3-bucket
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: S3-Bucket
+          template: CloudFormation/01_s3_bucket.yaml
+          capabilities: CAPABILITY_NAMED_IAM
+          action: deploy
