@@ -6,12 +6,6 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      region:
-        description: "AWS region to deploy the stack"
-        required: true
-        default: "us-east-1"
 
 jobs:
   cfn-deploy:
@@ -26,7 +20,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ github.event.inputs.region }}
+          aws-region: "us-east-1"
 
       - name: Deploy S3 Buckets CloudFormation Stacks
         id: S3-bucket
@@ -34,5 +28,4 @@ jobs:
         with:
           name: S3-Bucket
           template: CloudFormation/01_s3_bucket.yaml
-          capabilities: CAPABILITY_NAMED_IAM
-          action: deploy
+          # capabilities: CAPABILITY_NAMED_IAM
