@@ -11,6 +11,10 @@ Parameters:
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Properties:
-    #   AccessControl: PublicRead
-      BucketName: !Ref BucketName
+      BucketName: !Join
+        - '-'
+        - - !Ref BucketName
+          - !Ref 'AWS::StackName'
