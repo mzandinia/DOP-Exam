@@ -26,7 +26,7 @@ jobs:
         id: S3-bucket
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: S3-Bucket-01
+          name: s3-bucket-02
           template: CloudFormation/01_s3_bucket.yaml
           no-fail-on-empty-changeset: "1"
           # parameter-overrides: "BucketName=mysamplebucket-12345"
