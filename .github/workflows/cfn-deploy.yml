@@ -34,6 +34,6 @@ jobs:
         id: EC2-instance
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: ec2-instance-02
+          name: ec2-instance-03
           template: CloudFormation/02-ec2.yaml
           no-fail-on-empty-changeset: "1"
