@@ -10,3 +10,8 @@ Resources:
       #   Ebs:
       #     VolumeSize: 10
       #     VolumeType: gp3
+
+  Instance01EIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref Instance01
