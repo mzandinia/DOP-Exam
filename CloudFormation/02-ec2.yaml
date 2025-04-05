@@ -1,17 +1,48 @@
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: "ami-00a929b66ed6e0de6"
+    us-east-2:
+      AMI: "ami-0100e595e1cc1ff7f"
+
+Parameters:
+  EnvironmentType:
+    Description: Environment Type
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+      - test
+    Default: test
+    ConstraintDescription: Must be development or production
+
+  LatestAMIID:
+    Description: Latest AMI ID for Amazon Linux 2023
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64'
+
+Conditions:
+  CreateProdResources: !Equals [!Ref EnvironmentType, prod]
+  CreateDevResources: !Equals [!Ref EnvironmentType, dev]
+
 Resources:
   Instance01:
     Type: AWS::EC2::Instance
     Properties:
       AvailabilityZone: us-east-1a
-      ImageId: ami-00a929b66ed6e0de6
-      InstanceType: t2.small
+      # ImageId: !FindInMap [RegionMap, !Ref "AWS:Region", AMI]
+      ImageId: !Ref LatestAMIID
+      InstanceType: !If [CreateProdResources, t3.large, !If [CreateDevResources, t3.micro, t2.micro]]
       BlockDeviceMappings:
       - DeviceName: /dev/xvda
         Ebs:
           VolumeSize: 10
           VolumeType: gp3
+      Tags:
+           - Key: EnvironmentType
+             Value: !Ref EnvironmentType
 
   Instance01EIP:
     Type: AWS::EC2::EIP
     Properties:
-      InstanceId: !Ref Instance01
+      InstanceId: !GetAtt Instance01.InstanceId
