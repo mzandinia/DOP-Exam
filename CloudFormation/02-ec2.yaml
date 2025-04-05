@@ -8,7 +8,6 @@ Resources:
         InstanceMarketOptions:
           MarketType: spot
           SpotOptions:
-            MaxPrice: "0.03"
             SpotInstanceType: one-time
             InstanceInterruptionBehavior: terminate
   Instance01:
@@ -18,7 +17,7 @@ Resources:
       BlockDeviceMappings:
       - DeviceName: /dev/sda1
         Ebs:
-          VolumeSize: 9
+          VolumeSize: 10
           VolumeType: gp3
       LaunchTemplate:
         LaunchTemplateId: !Ref TadbirLaunchTemplate
