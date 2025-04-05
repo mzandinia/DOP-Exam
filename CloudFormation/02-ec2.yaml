@@ -1,0 +1,25 @@
+Resources:
+  TadbirLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: ami-00a929b66ed6e0de6
+        InstanceType: t2.nano
+        BlockDeviceMappings:
+          - DeviceName: /dev/sda1
+            Ebs:
+              VolumeSize: 8
+              VolumeType: gp3
+        InstanceMarketOptions:
+          MarketType: spot
+          SpotOptions:
+            MaxPrice: "0.03"
+            SpotInstanceType: one-time
+            InstanceInterruptionBehavior: terminate
+  Instance01:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1a
+      LaunchTemplate:
+        LaunchTemplateId: !Ref TadbirLaunchTemplate
+        Version: !GetAtt TadbirLaunchTemplate.LatestVersionNumber
