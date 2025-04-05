@@ -5,11 +5,6 @@ Resources:
       LaunchTemplateData:
         ImageId: ami-00a929b66ed6e0de6
         InstanceType: t2.micro
-        BlockDeviceMappings:
-          - DeviceName: /dev/sda1
-            Ebs:
-              VolumeSize: 8
-              VolumeType: gp3
         InstanceMarketOptions:
           MarketType: spot
           SpotOptions:
@@ -20,6 +15,11 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       AvailabilityZone: us-east-1a
+      BlockDeviceMappings:
+      - DeviceName: /dev/sda1
+        Ebs:
+          VolumeSize: 8
+          VolumeType: gp3
       LaunchTemplate:
         LaunchTemplateId: !Ref TadbirLaunchTemplate
         Version: !GetAtt TadbirLaunchTemplate.LatestVersionNumber
