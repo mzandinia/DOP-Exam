@@ -30,7 +30,8 @@ Resources:
     Type: AWS::EC2::Instance
     Condition: CreateDevResources
     Properties:
-      AvailabilityZone: !Select [0, !GetAZs '']
+      AvailabilityZone: 'us-east-1a'
+      # AvailabilityZone: !Select [0, !GetAZs '']
       # ImageId: !FindInMap [RegionMap, !Ref "AWS:Region", AMI]
       ImageId: !Ref LatestAMIID
       InstanceType: !If [CreateProdResources, t3.large, !If [CreateDevResources, t3.micro, t2.micro]]
@@ -43,7 +44,7 @@ Resources:
            - Key: EnvironmentType
              Value: !Ref EnvironmentType
 
-  Instance01EIP:
-    Type: AWS::EC2::EIP
-    Properties:
-      InstanceId: !GetAtt Instance01.InstanceId
+  # Instance01EIP:
+  #   Type: AWS::EC2::EIP
+  #   Properties:
+  #     InstanceId: !GetAtt Instance01.InstanceId
