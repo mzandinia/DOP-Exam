@@ -29,9 +29,10 @@ Resources:
   Instance01:
     Type: AWS::EC2::Instance
     Properties:
-      AvailabilityZone: us-east-1a
+      AvailabilityZone: !Select [0, !GetAZs '']
       # ImageId: !FindInMap [RegionMap, !Ref "AWS:Region", AMI]
       ImageId: !Ref LatestAMIID
+      Condition: CreateDevResources
       InstanceType: !If [CreateProdResources, t3.large, !If [CreateDevResources, t3.micro, t2.micro]]
       BlockDeviceMappings:
       - DeviceName: /dev/xvda
